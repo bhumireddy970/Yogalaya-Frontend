@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import BackButton from "../Back";
+import api from "../api/client";
 
 export default function Achievements() {
   const [achievements, setAchievements] = useState([]);
-  const API_URL = "http://localhost:5000/api/achievements";
+  // const API_URL = api + "/achievements";
 
   useEffect(() => {
-    axios.get(API_URL).then((res) => setAchievements(res.data));
+    api.get("/achievements").then((res) => setAchievements(res.data));
   }, []);
 
   return (
@@ -30,7 +31,7 @@ export default function Achievements() {
                 {item.photos.map((photo, idx) => (
                   <img
                     key={idx}
-                    src={`http://localhost:5000/${photo}`}
+                    src={`${import.meta.env.VITE_API_URL}/${photo}`}
                     alt="achievement"
                     className="rounded-lg shadow"
                   />
@@ -43,7 +44,7 @@ export default function Achievements() {
                 {item.videos.map((video, idx) => (
                   <video
                     key={idx}
-                    src={`http://localhost:5000/${video}`}
+                    src={`${import.meta.env.VITE_API_URL}/${video}`}
                     controls
                     className="w-full h-60 rounded-lg shadow"
                   />
