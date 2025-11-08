@@ -59,6 +59,7 @@ export default function AdminDashboard() {
       console.error("Error fetching users:", err);
     }
   };
+
   const fetchAllRegistrations = async () => {
     try {
       const res = await api.get("/registration/all");
@@ -150,6 +151,7 @@ export default function AdminDashboard() {
       console.error("Error approving user:", err);
     }
   };
+
   const handleLogout = () => {
     dispatch(logout());
     navigate("/login");
@@ -157,27 +159,46 @@ export default function AdminDashboard() {
 
   // ---------------- UI ----------------
   return (
-    <div className="min-xl bg-gray-100 ">
-      {/* Header */}
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold m-3">Admin Dashboard</h1>
-        <button
-          onClick={() => navigate("/admin/achievements")}
-          className="px-6 py-3 bg-pink-500 hover:bg-pink-600 text-white font-bold rounded-xl shadow-xl m-3"
-        >
-          Add Achievements
-        </button>
-        <button
-          onClick={handleLogout}
-          className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 m-3"
-        >
-          Logout
-        </button>
+    <div className="min-xl bg-gray-100">
+      {/* ✅ HEADER */}
+      <div className="flex flex-wrap justify-between items-center mb-6 p-4 bg-white shadow-sm rounded-b-lg">
+        <h1 className="text-2xl font-bold text-gray-800">Admin Dashboard</h1>
+
+        <div className="flex flex-wrap gap-3">
+          {/* 🔹 Work Analysis Button */}
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={() => navigate("/admin/work-analysis")}
+            className="px-6 py-3 bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600 text-white font-bold rounded-xl shadow-xl transition-all duration-300"
+          >
+            Work Analysis
+          </motion.button>
+
+          {/* 🔹 Add Achievements Button */}
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={() => navigate("/admin/achievements")}
+            className="px-6 py-3 bg-pink-500 hover:bg-pink-600 text-white font-bold rounded-xl shadow-xl"
+          >
+            Add Achievements
+          </motion.button>
+
+          {/* 🔹 Logout Button */}
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={handleLogout}
+            className="px-6 py-3 bg-red-500 hover:bg-red-600 text-white font-bold rounded-xl shadow-xl"
+          >
+            Logout
+          </motion.button>
+        </div>
       </div>
 
       {/* Tabs */}
-      <div className="flex space-x-4 m-3">
-        <div className="absolute top-4 right-4 z-50"></div>
+      <div className="flex space-x-4 m-3 flex-wrap">
         {[
           "competitions",
           "registrations",
@@ -189,21 +210,22 @@ export default function AdminDashboard() {
             key={t}
             onClick={() => {
               if (t === "Face Attendance") {
-                navigate("/admin/attendance"); // 🔹 redirect to new page
+                navigate("/admin/attendance");
               } else {
-                setTab(t); // keep normal tab switching
+                setTab(t);
               }
             }}
-            className={`px-4 py-2 rounded-lg ${
+            className={`px-4 py-2 rounded-lg font-medium transition-all ${
               tab === t
-                ? "bg-blue-600 text-white"
-                : "bg-white shadow hover:bg-gray-100"
+                ? "bg-blue-600 text-white shadow-md"
+                : "bg-white text-gray-700 border hover:bg-gray-100"
             }`}
           >
             {t.charAt(0).toUpperCase() + t.slice(1)}
           </button>
         ))}
       </div>
+
       {/* Competitions */}
       {tab === "competitions" && (
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
@@ -216,6 +238,7 @@ export default function AdminDashboard() {
               + Add Competition
             </button>
           </div>
+
           <ul className="grid gap-3">
             {competitions.map((c) => (
               <li
@@ -307,6 +330,7 @@ export default function AdminDashboard() {
         </motion.div>
       )}
 
+      {/* All Registrations */}
       {tab === "all-registrations" && (
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
           <h2 className="text-lg font-semibold mb-4">
@@ -354,7 +378,7 @@ export default function AdminDashboard() {
         </motion.div>
       )}
 
-      {/* ✅ Users */}
+      {/* Users */}
       {tab === "users" && (
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
           <h2 className="text-lg font-semibold mb-4">User Approvals</h2>
@@ -393,7 +417,7 @@ export default function AdminDashboard() {
         </motion.div>
       )}
 
-      {/* Add Modal */}
+      {/* Modals */}
       {showAddModal && (
         <CompetitionModal
           title="Add Competition"
@@ -404,7 +428,6 @@ export default function AdminDashboard() {
         />
       )}
 
-      {/* Edit Modal */}
       {showEditModal && editCompetition && (
         <CompetitionModal
           title="Edit Competition"

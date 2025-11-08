@@ -6,7 +6,12 @@ import { motion } from "framer-motion";
 import BackButton from "../Back";
 
 export default function RegisterUser() {
-  const [form, setForm] = useState({ name: "", email: "", password: "" });
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    password: "",
+    studentId: "",
+  });
   const [msg, setMsg] = useState("");
   const navigate = useNavigate();
 
@@ -14,10 +19,10 @@ export default function RegisterUser() {
     e.preventDefault();
     try {
       await api.post("/auth/register-user", form);
-      setMsg("Registered. Await admin approval.");
+      setMsg("✅ Registered successfully. Await admin approval.");
       setTimeout(() => navigate("/login"), 1500);
     } catch (err) {
-      setMsg(err?.response?.data?.msg || "Error");
+      setMsg(err?.response?.data?.msg || "❌ Registration error");
     }
   };
 
@@ -25,7 +30,6 @@ export default function RegisterUser() {
     <>
       <BackButton to="/" />
       <div className="relative min-h-[calc(100vh-64px)] flex items-center justify-center">
-        {/* Gradient Background with curved edges */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -33,7 +37,6 @@ export default function RegisterUser() {
           className="absolute inset-0 bg-gradient-to-br from-purple-900 via-indigo-900 to-purple-700 rounded-tl-[80px] rounded-br-[80px]"
         />
 
-        {/* Content wrapper */}
         <motion.div
           initial={{ scale: 0.9, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
@@ -87,24 +90,42 @@ export default function RegisterUser() {
             <h2 className="text-2xl font-bold text-white mb-6">
               Create your Account
             </h2>
+
             {msg && (
               <motion.div
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="mb-3 bg-green-100 text-green-800 p-2 rounded"
+                className={`mb-3 p-2 rounded ${
+                  msg.includes("✅")
+                    ? "bg-green-100 text-green-800"
+                    : "bg-red-100 text-red-800"
+                }`}
               >
                 {msg}
               </motion.div>
             )}
+
             <form onSubmit={submit} className="space-y-4">
               <motion.input
                 whileFocus={{ scale: 1.02 }}
                 required
-                placeholder="Name"
+                placeholder="Full Name"
                 className="w-full px-4 py-2 rounded-lg bg-white/20 text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-purple-400"
                 value={form.name}
                 onChange={(e) => setForm({ ...form, name: e.target.value })}
               />
+
+              <motion.input
+                whileFocus={{ scale: 1.02 }}
+                required
+                placeholder="Student ID"
+                className="w-full px-4 py-2 rounded-lg bg-white/20 text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-purple-400"
+                value={form.studentId}
+                onChange={(e) =>
+                  setForm({ ...form, studentId: e.target.value })
+                }
+              />
+
               <motion.input
                 whileFocus={{ scale: 1.02 }}
                 required
@@ -114,6 +135,7 @@ export default function RegisterUser() {
                 value={form.email}
                 onChange={(e) => setForm({ ...form, email: e.target.value })}
               />
+
               <motion.input
                 whileFocus={{ scale: 1.02 }}
                 required

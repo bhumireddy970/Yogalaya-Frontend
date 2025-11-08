@@ -20,6 +20,8 @@ import MyRegistrations from "./pages/MyRegistrations";
 import AdminRegistrations from "./pages/AdminRegistrations";
 import Achievements from "./pages/Achievements";
 import Home from "./pages/Home";
+import WorkTrackerForm from "./pages/WorkTrackerForm";
+import WorkAnalysis from "./pages/WorkAnalysis";
 
 export default function App() {
   const location = useLocation();
@@ -40,6 +42,8 @@ export default function App() {
     "/admin/attendance",
     "/achievements",
     "/admin/achievements",
+    "/admin/work-analysis",
+    "/work-tracker",
   ];
   const hideHeader = noHeaderPaths.includes(location.pathname);
 
@@ -62,6 +66,7 @@ export default function App() {
           <Route path="/admin/attendance" element={<AttendancePage />} />
           <Route path="/achievements" element={<Achievements />} />
           <Route path="/admin/achievements" element={<AdminAchievements />} />
+          <Route path="/work-tracker" element={<WorkTrackerForm />} />
 
           {/* user protected */}
 
@@ -96,6 +101,7 @@ export default function App() {
             path="*"
             element={<div className="card">Page not found</div>}
           />
+          <Route path="/admin/work-analysis" element={<WorkAnalysis />} />
         </Routes>
       </main>
     </div>

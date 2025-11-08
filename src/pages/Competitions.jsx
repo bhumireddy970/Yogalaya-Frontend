@@ -2,10 +2,13 @@ import React, { useEffect, useState } from "react";
 import api from "../api/client";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 
 export default function Competitions() {
   const [comps, setComps] = useState([]);
   const { role } = useSelector((state) => state.auth);
+  const navigate = useNavigate();
 
   useEffect(() => {
     api
@@ -18,6 +21,14 @@ export default function Competitions() {
     <div className="space-y-6">
       {/* Header */}
       <div className="flex justify-between items-center">
+        <motion.button
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          onClick={() => navigate("/work-tracker")}
+          className="px-6 py-3 bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600 text-white font-bold rounded-xl shadow-xl transition-all duration-300"
+        >
+          Time Table
+        </motion.button>
         <h1 className="text-2xl font-semibold text-slate-800">Competitions</h1>
         {role === "admin" && (
           <Link
